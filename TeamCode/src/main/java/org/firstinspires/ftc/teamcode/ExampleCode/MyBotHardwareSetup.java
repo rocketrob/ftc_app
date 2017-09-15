@@ -44,6 +44,7 @@ public class MyBotHardwareSetup  {
     //servos
     public Servo servoHandL = null;
     public Servo servoHandR = null;
+    public Servo crServo    = null;
 
     //sensors
     public GyroSensor gyro  = null;
@@ -51,10 +52,15 @@ public class MyBotHardwareSetup  {
     /* local OpMode members. */
     HardwareMap hwMap        = null;
 
-    //Create and set desired variables, i.e. default hand positions. To be determined based on your build
+    //Create and set default servo positions & MOTOR STOP variables.
+    //Possible servo values: 0.0 - 1.0  For CRServo 0.5=stop greater or less than will spin in that direction
     final static double CLOSED = 0.2;
     final static double OPEN = 0.8;
     final static double MOTOR_STOP = 0.0; // sets motor power to zero
+    //CR servo variables
+    double SpinLeft = 0.1;
+    double SpinRight = 0.6;
+    double STOP = 0.5;
 
    /* Constructor   // this is not required as JAVA does it for you, but useful if you want to add
     * function to this method when called in OpModes.
@@ -97,10 +103,14 @@ public class MyBotHardwareSetup  {
         // Define Motors to match Robot Configuration File
         servoHandL = hwMap.servo.get("servoHandL");
         servoHandR = hwMap.servo.get("servoHandR");
+        crServo    = hwMap.servo.get("crServo");
 
         //Set servo hand grippers to open position.
         servoHandL.setPosition(OPEN);
         servoHandR.setPosition(OPEN);
+
+        //Continous Rotation Servo
+        crServo.setPosition(STOP);
 
         /************************************************************
          * SENSOR SECTION
