@@ -52,56 +52,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="TestBedOpMode", group="Examples")  // @Autonomous(...) is the other common choice
 @Disabled
 public class TestBed_TeleOp extends LinearOpMode {
-
-    /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
-    //motors
-    DcMotor motorLeft = null;
-    DcMotor motorRight = null;
-    DcMotor motorArm = null;
 
-    //servos
-    Servo servoHandL = null;
-    Servo servoHandR = null;
-    Servo crServo = null;
+    MyBotHardwareSetup robot        = new MyBotHardwareSetup();  // Use MyBotHardware Setup
 
-
-    //Create and set default servo positions variables.
-    //Possible servo values: 0.0 - 1.0  For CRServo 0.5=stop greater or less than will spin in that direction
-    double CLOSED = 0.1;
-    double OPEN = 1.0;
-    double SpinLeft = 0.1;
-    double SpinRight = 0.6;
-    double STOP = 0.5;
     @Override
     public void runOpMode() throws InterruptedException {
-        //adds feedback telemetry to DS
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
 
-        /* eg: Initialize the hardware variables. Note that the strings used here as parameters
-         * to 'get' must correspond to the names assigned during the robot configuration
-         * step (using the FTC Robot Controller app on the phone).
-         */
-         motorLeft  = hardwareMap.dcMotor.get("motorL");
-         motorRight = hardwareMap.dcMotor.get("motorR");
-         motorArm = hardwareMap.dcMotor.get("motorArm");
-         servoHandL = hardwareMap.servo.get("servoHandL");
-         servoHandR = hardwareMap.servo.get("servoHandR");
-         crServo = hardwareMap.servo.get("crServo"); // note:   when configuring robot on phone select servo NOT continuous rotation servo.
-                                                     //         not sure why this is?
-
-
-        // eg: Set the drive motor directions:
-        // "Reverse" the motor that runs backwards when connected directly to the battery
-         motorLeft.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-         motorRight.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
-         motorArm.setDirection(DcMotor.Direction.FORWARD); // Can change based on motor configuration
-
-        //Set servo hand grippers to open position.
-         servoHandL.setPosition(OPEN);
-         servoHandR.setPosition(OPEN);
-         crServo.setPosition(STOP);
+        robot.init(hardwareMap);                //Initialize hardware from the MyBotHardware Setup
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -117,43 +75,43 @@ public class TestBed_TeleOp extends LinearOpMode {
 
             // tank drive set to gamepad1 joysticks
             //(note: The joystick goes negative when pushed forwards)
-            motorLeft.setPower(gamepad1.left_stick_y);
-            motorRight.setPower(gamepad1.right_stick_y);
+            robot.motorLeft.setPower(gamepad1.left_stick_y);
+            robot.motorRight.setPower(gamepad1.right_stick_y);
 
             // Arm Control - Uses dual buttons to control motor direction
             if(gamepad1.right_bumper)
             {
-                motorArm.setPower(-gamepad1.right_trigger); // if both Bumper + Trigger, then negative power, runs arm down
+                robot.motorArm.setPower(-gamepad1.right_trigger); // if both Bumper + Trigger, then negative power, runs arm down
             }
             else
             {
-                motorArm.setPower(gamepad1.right_trigger);  // else trigger positive value, runs arm up
+                robot.motorArm.setPower(gamepad1.right_trigger);  // else trigger positive value, runs arm up
             }
 
             //servo commands
             if(gamepad1.a) //button 'a' will open
             {
-                servoHandR.setPosition(OPEN);
-                servoHandL.setPosition(OPEN);
+                robot.servoHandR.setPosition(robot.OPEN);
+                robot.servoHandL.setPosition(robot.OPEN);
             }
             else if (gamepad1.b) //button 'b' will close
             {
-                servoHandR.setPosition(CLOSED);
-                servoHandL.setPosition(CLOSED);
+                robot.servoHandR.setPosition(robot.CLOSED);
+                robot.servoHandL.setPosition(robot.CLOSED);
             }
 
             //CR Servo commands
             if(gamepad1.x) //button x will spinLeft
             {
-                crServo.setPosition(SpinLeft);
+                robot.crServo.setPosition(robot.SpinLeft);
             }
             else if (gamepad1.y) //button y will spinRight
             {
-                crServo.setPosition(SpinRight);
+                robot.crServo.setPosition(robot.SpinRight);
             }
             else
             {
-                crServo.setPosition(STOP);
+                robot.crServo.setPosition(robot.STOP);
             }
 
 
