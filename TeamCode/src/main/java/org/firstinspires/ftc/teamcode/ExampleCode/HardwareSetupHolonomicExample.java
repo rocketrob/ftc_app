@@ -69,7 +69,7 @@ public class HardwareSetupHolonomicExample {
         motorFrontLeft = hwMap.dcMotor.get("motorFL");
         motorFrontRight = hwMap.dcMotor.get("motorFR");
         motorBackLeft = hwMap.dcMotor.get("motorBL");
-        motorBackLeft = hwMap.dcMotor.get("motorBR");
+        motorBackRight = hwMap.dcMotor.get("motorBR");
 
         // Set the drive motor directions:
         motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
