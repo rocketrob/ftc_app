@@ -55,7 +55,7 @@ public class ConceptHolonomicAutoDriveByTime extends LinearOpMode {
         StrafeLeft(DRIVE_POWER, 1000);
         StopDrivingTime(2000);
 
-        DriveForwardTime(DRIVE_POWER, 4000);
+        DriveForwardTime(-DRIVE_POWER, 4000); //neg power drives backwards
         StrafeRight(DRIVE_POWER, 1000);
         StopDrivingTime(2000);
 
@@ -77,9 +77,9 @@ public class ConceptHolonomicAutoDriveByTime extends LinearOpMode {
     {
         // write the values to the motors
         robot.motorFrontRight.setPower(DRIVE_POWER);//still need to test motor directions for desired movement
-        robot.motorFrontLeft.setPower(-DRIVE_POWER);
+        robot.motorFrontLeft.setPower(DRIVE_POWER);
         robot.motorBackRight.setPower(DRIVE_POWER);
-        robot.motorBackLeft.setPower(-DRIVE_POWER);
+        robot.motorBackLeft.setPower(DRIVE_POWER);
     }
 
     public void DriveForwardTime(double power, long time) throws InterruptedException
@@ -101,9 +101,9 @@ public class ConceptHolonomicAutoDriveByTime extends LinearOpMode {
     public void StrafeLeft(double power, long time) throws InterruptedException
     {
         // write the values to the motors
-        robot.motorFrontRight.setPower(-power);
+        robot.motorFrontRight.setPower(power);
         robot.motorFrontLeft.setPower(-power);
-        robot.motorBackRight.setPower(power);
+        robot.motorBackRight.setPower(-power);
         robot.motorBackLeft.setPower(power);
         Thread.sleep(time);
     }
