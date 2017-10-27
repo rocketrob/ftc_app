@@ -68,7 +68,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  */
 
 @Autonomous(name="TestAuto Drive By Encoder", group="Test")
-//@Disabled
+@Disabled
 public class TestAutoDriveByEncoder_Linear extends LinearOpMode {
 
     //reset runtime counter

@@ -60,7 +60,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  */
 
 @Autonomous(name="TestAuto Drive To Line", group="Test")
-//@Disabled
+@Disabled
 public class TestAutoDriveToLine_Linear extends LinearOpMode {
 
     //reset runtime counter

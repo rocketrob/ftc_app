@@ -51,21 +51,30 @@ public class ConceptHolonomicAutoDriveByTime extends LinearOpMode {
         /************************
          * Autonomous Code Below://
          *************************/
-        DriveForwardTime(DRIVE_POWER, 4000);
-        StrafeLeft(DRIVE_POWER, 1000);
-        StopDrivingTime(2000);
+        DriveForwardTime(DRIVE_POWER, 1000);
+        StopDrivingTime(1000);
+        DriveForwardTime(-DRIVE_POWER, 1000); //neg power drives backwards
+        StopDrivingTime(1000);
 
-        DriveForwardTime(-DRIVE_POWER, 4000); //neg power drives backwards
+        StrafeLeft(DRIVE_POWER, 1000);
+        StopDrivingTime(1000);
         StrafeRight(DRIVE_POWER, 1000);
-        StopDrivingTime(2000);
+        StopDrivingTime(1000);
 
 /* currently no Servo configured on bot
         RaiseArm();
 */
-        SpinRight(DRIVE_POWER/2, 3000);
-        DriveForwardTime(DRIVE_POWER, 4000);
-        StopDriving();
+        SpinRight(DRIVE_POWER, 2000);
+        StopDrivingTime(1000);
+        SpinRight(DRIVE_POWER/2, 2000);
+        StopDrivingTime(1000);
 
+        SpinLeft(DRIVE_POWER, 2000);
+        StopDrivingTime(1000);
+        SpinLeft(DRIVE_POWER/2, 2000);
+        StopDrivingTime(1000);
+
+        StopDriving();
 
     }//runOpMode
 
@@ -76,10 +85,10 @@ public class ConceptHolonomicAutoDriveByTime extends LinearOpMode {
     public void DriveForward(double power)
     {
         // write the values to the motors
-        robot.motorFrontRight.setPower(DRIVE_POWER);//still need to test motor directions for desired movement
-        robot.motorFrontLeft.setPower(DRIVE_POWER);
-        robot.motorBackRight.setPower(DRIVE_POWER);
-        robot.motorBackLeft.setPower(DRIVE_POWER);
+        robot.motorFrontRight.setPower(power);//still need to test motor directions for desired movement
+        robot.motorFrontLeft.setPower(power);
+        robot.motorBackRight.setPower(power);
+        robot.motorBackLeft.setPower(power);
     }
 
     public void DriveForwardTime(double power, long time) throws InterruptedException

@@ -19,7 +19,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 @Autonomous(name="Example AutoByTime", group="Test")  // @TeleOp(...) is the other common choice
-//@Disabled
+@Disabled
 public class TestAutoDriveByTime extends LinearOpMode {
 
     /* Declare OpMode members. */
