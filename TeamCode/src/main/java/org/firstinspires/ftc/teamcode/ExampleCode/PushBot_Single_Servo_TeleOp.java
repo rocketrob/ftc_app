@@ -47,7 +47,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 
-@TeleOp(name="SingleServoPushBot", group="Examples")  // @Autonomous(...) is the other common choice
+@TeleOp(name="SingleServoPushBot", group="Concept")  // @Autonomous(...) is the other common choice
 //@Disabled
 public class PushBot_Single_Servo_TeleOp extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
