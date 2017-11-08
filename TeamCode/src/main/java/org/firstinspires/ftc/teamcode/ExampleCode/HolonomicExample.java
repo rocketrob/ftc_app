@@ -29,7 +29,7 @@ import com.qualcomm.robotcore.util.Range;
           X       X
 */
 @TeleOp(name = "Example: HolonomicTeleOp", group = "Examples")
-//@Disabled
+@Disabled
 public class HolonomicExample extends OpMode {
 
     HardwareSetupHolonomicExample robot     =   new HardwareSetupHolonomicExample();

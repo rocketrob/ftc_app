@@ -15,15 +15,17 @@
 package org.firstinspires.ftc.teamcode.ExampleCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+
 import org.firstinspires.ftc.teamcode.ExampleCode.HardwareSetupHolonomicExample;
 
 @Autonomous(name="Concept: Holonomic AutoByTime", group="Concept")
-//@Disabled
+@Disabled
 public class ConceptHolonomicAutoDriveByTime extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
