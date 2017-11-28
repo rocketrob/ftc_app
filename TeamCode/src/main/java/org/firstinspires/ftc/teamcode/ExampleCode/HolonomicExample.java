@@ -64,16 +64,16 @@ public class HolonomicExample extends OpMode {
 
         // holonomic formulas
 
-        float FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
-        float FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
-        float BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
-        float BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
+        double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
+        double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
+        double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
+        double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
 
-        // clip the right/left values so that the values never exceed +/- 1
-        FrontRight = Range.clip(FrontRight, -1, 1);
-        FrontLeft = Range.clip(FrontLeft, -1, 1);
-        BackLeft = Range.clip(BackLeft, -1, 1);
-        BackRight = Range.clip(BackRight, -1, 1);
+        // scales range of motor powers by using root power of the input value (x^3)
+        FrontRight = Math.pow(FrontRight, 3);
+        FrontLeft = Math.pow(FrontLeft, 3);
+        BackLeft = Math.pow(BackLeft, 3);
+        BackRight = Math.pow(BackRight, 3);
 
         // write the values to the motors
         robot.motorFrontRight.setPower(FrontRight);
