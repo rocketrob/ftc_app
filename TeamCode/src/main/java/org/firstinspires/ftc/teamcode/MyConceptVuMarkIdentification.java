@@ -141,24 +141,29 @@ public class MyConceptVuMarkIdentification extends LinearOpMode {
 
                 if (vuMark == RelicRecoveryVuMark.LEFT) {
                     // autonomous code here...
-                    robot.motorArm.setPower(1.0);
-                    sleep(1000);
-                    robot.motorArm.setPower(0.0);
+                    robot.motorArm.setPower(1.0);   // set motors to running
+                    sleep(1000);                    // leave motors running for time
+                    robot.motorArm.setPower(0.0);   // turn motor(s) off
+
                 }
                 else if (vuMark == RelicRecoveryVuMark.CENTER){
                     // autonomous code here...
                     robot.motorLeft.setPower(1.0);
                     sleep(1000);
                     robot.motorLeft.setPower(0.0);
+
                 }
                 else if (vuMark == RelicRecoveryVuMark.RIGHT){
                     // autonomous code here...
                     robot.motorRight.setPower(1.0);
                     sleep(1000);
                     robot.motorRight.setPower(0.0);
+
                 }
 
-                // *** need to figure out how to end opModeIsActive once code has been run
+                telemetry.addData("Autonomous", "Complete");
+                break; //exit the opMode loop
+
             }
             else {
                 telemetry.addData("VuMark", "NOT VISIBLE"); // else if vuMark IS UNKNOWN display NOT VISABLE
