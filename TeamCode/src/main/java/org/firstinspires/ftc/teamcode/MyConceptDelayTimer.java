@@ -107,11 +107,10 @@ public class MyConceptDelayTimer extends LinearOpMode {
         waitForStart();
 
         relicTrackables.activate();
+        //this.resetStartTime();
+        timer.reset();
 
         while (opModeIsActive()) {
-
-            //this.resetStartTime();
-            timer.reset();
 
             telemetry.addData("Status", "Run Time: " + timer.toString());
             telemetry.update();
