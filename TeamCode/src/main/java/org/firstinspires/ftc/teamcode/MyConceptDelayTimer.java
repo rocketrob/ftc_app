@@ -51,7 +51,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 //@Disabled
 public class MyConceptDelayTimer extends LinearOpMode {
 
-    private ElapsedTime delaytime = new ElapsedTime(); //create timer to monitor elapsed time
+    private  ElapsedTime timer = new ElapsedTime(); //create timer to monitor elapsed time
 
     TestBedHardwareSetup robot = new TestBedHardwareSetup(); //get hardware members from HardwareSetUp class
 
@@ -110,9 +110,10 @@ public class MyConceptDelayTimer extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            delaytime.reset();
+            //this.resetStartTime();
+            timer.reset();
 
-            telemetry.addData("Status", "Run Time: " + delaytime.toString());
+            telemetry.addData("Status", "Run Time: " + timer.toString());
             telemetry.update();
 
             /**
@@ -124,7 +125,8 @@ public class MyConceptDelayTimer extends LinearOpMode {
 
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate); // vuMark gets value from relicTemplate
 
-            if (vuMark != RelicRecoveryVuMark.UNKNOWN || delaytime > 20000) // if vuMark is NOT UNKNOWN run autoCode for value seen
+
+            if (vuMark != RelicRecoveryVuMark.UNKNOWN || time > 20000) // if vuMark is NOT UNKNOWN run autoCode for value seen
                                                                             // OR 20sec of autonomous period have elapsed
             {
 
