@@ -27,11 +27,14 @@ public class HardwareSetupHolonomicExample {
     *these are the null statements to make sure nothing is stored in the variables.
     */
 
-    //motors
+    //Drive motors
     public DcMotor motorFrontRight = null;
     public DcMotor motorFrontLeft = null;
     public DcMotor motorBackRight = null;
     public DcMotor motorBackLeft = null;
+
+    //Accessories motors
+    public DcMotor armMotor = null;
 
     //servos
         //Add servos here
@@ -70,6 +73,8 @@ public class HardwareSetupHolonomicExample {
         motorFrontRight = hwMap.dcMotor.get("motorFR");
         motorBackLeft = hwMap.dcMotor.get("motorBL");
         motorBackRight = hwMap.dcMotor.get("motorBR");
+
+        armMotor = hwMap.dcMotor.get ("armMotor");
 
         // Set the drive motor directions:
         motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
