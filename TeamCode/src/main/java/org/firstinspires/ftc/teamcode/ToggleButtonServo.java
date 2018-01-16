@@ -30,11 +30,12 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.teamcode.ExampleCode;
+package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -44,7 +45,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="Toggle2", group="Examples")  // @Autonomous(...) is the other common choice
 @Disabled
-public class ToggleButton2 extends LinearOpMode {
+public class ToggleButtonServo extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -52,6 +53,10 @@ public class ToggleButton2 extends LinearOpMode {
     DcMotor motorLeft = null;
     DcMotor motorRight = null;
     DcMotor sweeper = null;
+
+    //Servo
+    Servo servoHandTopRight    = null;
+    Servo servoHandTopLeft    = null;
 
 
     @Override
@@ -68,6 +73,8 @@ public class ToggleButton2 extends LinearOpMode {
         motorRight = hardwareMap.dcMotor.get("motorR");
         sweeper = hardwareMap.dcMotor.get("sweeper");
 
+        servoHandTopLeft = hardwareMap.servo.get("servoHandTopLeft");
+        servoHandTopRight = hardwareMap.servo.get("servoHandTopRight");
 
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
@@ -77,9 +84,11 @@ public class ToggleButton2 extends LinearOpMode {
 
         // Declare some variables
         double motorDirection = -1.0;   //Keeps track of the direction for the sweeper motor
-        boolean aPrevState = false;      //Keeps track of whether the button was previously pressed or not so we know when it is released
-        boolean aCurrState = false;
-
+        boolean yPrevState = false;      //Keeps track of whether the button was previously pressed or not so we know when it is released
+        boolean yCurrState = false;
+        boolean xPrevState = false;      //Keeps track of whether the button was previously pressed or not so we know when it is released
+        boolean xCurrState = false;
+        int padA_count = 0;
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -99,27 +108,54 @@ public class ToggleButton2 extends LinearOpMode {
             motorRight.setPower(gamepad1.right_stick_y);
 
 
-//Toggle motor direction when button 'a' pressed
+//Toggle open when button 'y' pressed and closed when pressed again.
 
             // set current state to that of the button
-            aCurrState = gamepad1.a;
+            yCurrState = gamepad1.y;
 
-            if ((aCurrState == true) && (aCurrState != aPrevState)) {
-                // button is transitioning to a pressed state. So Toggle motorDirection
-                motorDirection = motorDirection * -1.0;
 
-                //Set the sweeper power to whatever the motorDirection value is
-                sweeper.setPower(motorDirection);
+            if ((yCurrState == false) ) {
+                if(gamepad1.y) {
+                    padA_count = +1; //
+                    yCurrState = false;
+                    //open
+                    servoHandTopRight.setPosition(0.2);
+                    servoHandTopLeft.setPosition(0.8);
+                }
             }
-            // update previous state variable.
-            aPrevState = aCurrState;
-
-            if (gamepad1.x) //button 'x' will stop sweeper
-            {
-                sweeper.setPower(0.0);
-                motorDirection = -1.0;
+            else{
+                if(gamepad1.y){
+                    padA_count =+1;
+                    yCurrState = true;
+                    //close
+                    servoHandTopRight.setPosition(0.85);
+                    servoHandTopLeft.setPosition(0.15);
+                }
             }
 
+
+//            //boolean declared before init()
+////            int gamepad1a_count = 0;
+///             declared in init()
+//              boolean directionState = false;
+
+//            if(directionState == false){
+//                if(gamepad1.x){
+//                    gamepad1a_count += 1;
+//                    directionState = true;
+//
+//                    gripperRotation.setPosition(0.435);
+//                }
+//            }else{
+//                if(gamepad2.dpad_right){
+//                    dpad_right_count += 1;
+//                    directionState = false;
+//
+//                    gripperRotation.setPosition(0.915);
+//                }
+//            } //declared in loop
+//            telemetry.addData("Direction State:", directionState);
+//            telemetry.addData("dpad_right_count:", count);
 
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
