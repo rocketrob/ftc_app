@@ -47,7 +47,7 @@ public class MyBotHardwareSetup  {
     public Servo crServo    = null;
 
     //sensors
-    public GyroSensor gyro  = null;
+   public GyroSensor gyro  = null;
 
     /* local OpMode members. */
     HardwareMap hwMap        = null;
@@ -80,6 +80,7 @@ public class MyBotHardwareSetup  {
         motorLeft = hwMap.dcMotor.get("motorL");
         motorRight = hwMap.dcMotor.get("motorR");
         motorArm = hwMap.dcMotor.get("motorArm");
+       // gyro = hwMap.gyroSensor.get("gyro");
 
         // Set the drive motor directions:
         motorLeft.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
@@ -97,9 +98,11 @@ public class MyBotHardwareSetup  {
         motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+
         /************************************************************
          * SERVO SECTION
          ************************************************************/
+
         // Define Motors to match Robot Configuration File
         servoHandL = hwMap.servo.get("servoHandL");
         servoHandR = hwMap.servo.get("servoHandR");
@@ -112,11 +115,13 @@ public class MyBotHardwareSetup  {
         //Continous Rotation Servo
         crServo.setPosition(STOP);
 
+
         /************************************************************
          * SENSOR SECTION
          ************************************************************/
         //Define sensors
         gyro = hwMap.gyroSensor.get("gyro");
+
    }
 
 }

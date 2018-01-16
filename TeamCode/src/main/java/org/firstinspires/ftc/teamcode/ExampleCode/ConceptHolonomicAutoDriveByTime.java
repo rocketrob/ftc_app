@@ -24,7 +24,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.ExampleCode.HardwareSetupHolonomicExample;
 
-@Autonomous(name="Concept: Holonomic AutoByTime", group="Concept")
+@Autonomous(name="Concept: Holonomic AutoByTime", group="Examples")
 @Disabled
 public class ConceptHolonomicAutoDriveByTime extends LinearOpMode {
 

@@ -19,7 +19,9 @@ import org.firstinspires.ftc.teamcode.ExampleCode.MyBotHardwareSetup;
 public class ConceptHoldArm extends LinearOpMode{
 
     ConceptBotHardwareSetup bot = new ConceptBotHardwareSetup(); //set up remote to robot hardware configuration
-    //variable for arm limits and hold position
+
+    // variables for arm limits and hold position
+    // note: these can be placed in your hardwareSetup Class
     double  armMinPos        = 0.0;      // encoder position for arm at bottom
     double  armMaxPos        = 5380.0;   // encoder position for arm at top
     int     armHoldPosition;             // reading of arm position when buttons released to hold
@@ -27,16 +29,14 @@ public class ConceptHoldArm extends LinearOpMode{
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
-    /**
-     * Constructor
-     */
-    public ConceptHoldArm() {
-    }
+
 
     @Override
     public void runOpMode() throws InterruptedException {
+
         bot.init(hardwareMap);  //Initialize hardware from the HardwareHolonomic Setup
-        //initialze
+
+        //init current position of arm motor
         armHoldPosition = bot.motorArm.getCurrentPosition();
         
         //adds feedback telemetry to DS

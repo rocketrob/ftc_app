@@ -60,7 +60,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  */
 
 @Autonomous(name="My: VuMark Id", group ="Concept")
-//@Disabled
+@Disabled
 public class MyConceptVuMarkIdentification extends LinearOpMode {
 
     TestBedHardwareSetup robot = new TestBedHardwareSetup(); //get hardware members from HardwareSetUp class
