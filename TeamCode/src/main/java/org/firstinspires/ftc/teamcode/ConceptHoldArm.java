@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.ExampleCode.MyBotHardwareSetup;
 
 /**
  * Created by hsrobotics on 1/16/2018.
+ * LINEAR OpMode configuration
  * Concept Using Motor Encoder to set Arm Drive motor upper/lower limits and monitor and hold position
  */
 
