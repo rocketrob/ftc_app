@@ -39,7 +39,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
- * Testing Stetson's motorArm button toggle program from Dan
+ * Concept for multi controlled servos. Open/Close as well as separate buttons for toggle open/close
+ * to isolate top from bottom
  */
 
 
@@ -57,7 +58,8 @@ public class ToggleButtonServo extends LinearOpMode {
     //Servo
     Servo servoHandTopRight    = null;
     Servo servoHandTopLeft    = null;
-
+    Servo servoHandBottomRight    = null;
+    Servo servoHandBottomLeft    = null;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -75,6 +77,8 @@ public class ToggleButtonServo extends LinearOpMode {
 
         servoHandTopLeft = hardwareMap.servo.get("servoHandTopLeft");
         servoHandTopRight = hardwareMap.servo.get("servoHandTopRight");
+        servoHandBottomLeft = hardwareMap.servo.get("servoHandBottomLeft");
+        servoHandBottomRight = hardwareMap.servo.get("servoHandBottomRight");
 
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
@@ -87,16 +91,14 @@ public class ToggleButtonServo extends LinearOpMode {
         boolean last_x = false;
         boolean direction_state_y = false;
         boolean direction_state_x = false;
-        double trPosOpen = 0.2;
-        double trPosClose = 0.85;
-        double tlPosOpen = 0.8;
-        double tlPosClose = 0.15;
+        double PosClose = 0.85;
+        double PosOpen  = 0.2;
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
 
-        /************************
+        /* ***********************
          * TeleOp Code Below://
          *************************/
 
@@ -109,7 +111,7 @@ public class ToggleButtonServo extends LinearOpMode {
             motorLeft.setPower(gamepad1.left_stick_y);
             motorRight.setPower(gamepad1.right_stick_y);
 
-            //Servo commands
+            //Servo commands - runs left & right layered servo together with a/b button
             if (gamepad1.a) //button 'a' will open top servos
             {
                 servoHandTopRight.setPosition(0.2);
@@ -126,31 +128,49 @@ public class ToggleButtonServo extends LinearOpMode {
 
             }
 
-//Toggle open when button 'y' pressed and closed when pressed again.
-
+//Toggle open-closed each time button pressed again. y for upper, x for lower servo layer
+            // y button to control top servos
             boolean y_pressed = gamepad1.y;
 
             if(y_pressed && !last_y)
             {
-                direction_state_y = !direction_state_y;
-                double newY_Pos = tlPosClose;
+                direction_state_y = !direction_state_y; //change direction state
+                double newY_Pos = PosClose;
                 if(direction_state_y == false) {
-                    newY_Pos = tlPosClose;
+                    newY_Pos = PosClose;
                 }
 
                 else {
-                    newY_Pos = tlPosOpen;
+                    newY_Pos = PosOpen;
                 }
 
                 servoHandTopLeft.setPosition(newY_Pos);
                 servoHandTopRight.setPosition(newY_Pos - 0.5);
             }
-
             last_y = y_pressed;
 
+            // same for x button to control bottom servos
+            boolean x_pressed = gamepad1.x;
+
+            if(x_pressed && !last_x)
+            {
+                direction_state_x = !direction_state_x;
+                double newx_Pos = PosClose;
+                if(direction_state_x == false) {
+                    newx_Pos = PosClose;
+                }
+
+                else {
+                    newx_Pos = PosOpen;
+                }
+
+                servoHandBottomLeft.setPosition(newx_Pos);
+                servoHandBottomRight.setPosition(newx_Pos - 0.5);
+            }
+            last_x = x_pressed;
 
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
-        }
 
-    }
-}
+        }//opModeIsActive
+    }//run OpMode
+}//toggleButtonServo
