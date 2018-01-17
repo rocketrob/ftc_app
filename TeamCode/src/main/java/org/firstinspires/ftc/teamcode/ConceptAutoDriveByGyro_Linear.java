@@ -139,15 +139,30 @@ public class ConceptAutoDriveByGyro_Linear extends LinearOpMode {
 
         // Step through each leg of YOUR DESIRED path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        // Put a hold after each turn
+        // **Put a hold after each turn**
         gyroDrive(DRIVE_SPEED, 48.0, 0.0);    // Drive FWD 48 inches
+        telemetry.addData("Path", "Straight");
+        telemetry.update();
+
         gyroTurn( TURN_SPEED, -45.0);         // Turn  CCW to -45 Degrees
         gyroHold( TURN_SPEED, -45.0, 0.5);    // Hold -45 Deg heading for a 1/2 second
+        telemetry.addData("Path", "1st Turn");
+        telemetry.update();
+
         gyroDrive(DRIVE_SPEED, 12.0, -45.0);  // Drive FWD 12 inches at 45 degrees
+        telemetry.addData("Path", "Straight");
+        telemetry.update();
+
         gyroTurn( TURN_SPEED,  45.0);         // Turn  CW  to  45 Degrees
         gyroHold( TURN_SPEED,  45.0, 0.5);    // Hold  45 Deg heading for a 1/2 second
+        telemetry.addData("Path", "2nd Turn");
+        telemetry.update();
+
         gyroTurn( TURN_SPEED,   0.0);         // Turn  CW  to   0 Degrees
         gyroHold( TURN_SPEED,   0.0, 1.0);    // Hold  0 Deg heading for a 1 second
+        telemetry.addData("Path", "Hold zero");
+        telemetry.update();
+
         gyroDrive(DRIVE_SPEED,-48.0, 0.0);    // Drive REV 48 inches
 
         telemetry.addData("Path", "Complete");

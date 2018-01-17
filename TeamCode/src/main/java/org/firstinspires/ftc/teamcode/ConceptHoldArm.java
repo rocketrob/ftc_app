@@ -47,40 +47,40 @@ public class ConceptHoldArm extends LinearOpMode{
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
-    
-    /************************
-     * TeleOp Code Below://
-     *************************/
-           
-        // Display running time and Encoder value
-        telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("ArmPosition: ", + bot.motorArm.getCurrentPosition());
-        telemetry.update();
 
-        // Arm Control - Uses left/right triggers to control motor direction.
-        // Uses Encoder values to set upper and lower limits to protect motors from over-driving lift
-        // and to hold arm position on decent to account for gravitational inertia
+        while (opModeIsActive()) {  // run until the end of the match (driver presses STOP)
+            /************************
+             * TeleOp Code Below://
+             *************************/
 
-        if (gamepad2.left_trigger > 0.0 && bot.motorArm.getCurrentPosition() > armMinPos) // encoder greater that lower limit
-        {
-            bot.motorArm.setPower(-gamepad2.left_trigger / 2.0); // let trigger run -motor DOWN / div in half to slow motor
-            armHoldPosition = bot.motorArm.getCurrentPosition(); // while the lift is moving, continuously reset the arm holding position
-        }
-        else if (gamepad2.right_trigger > 0.0 && bot.motorArm.getCurrentPosition() < armMaxPos) //encoder less than Max limit
-        {
-            bot.motorArm.setPower(gamepad2.right_trigger); //let trigger run +motor UP
-            armHoldPosition = bot.motorArm.getCurrentPosition(); // while the lift is moving, continuously reset the arm holding position
-        }
-        else //triggers are released - try to maintain the current position
-        {
-            bot.motorArm.setPower((double) (armHoldPosition - bot.motorArm.getCurrentPosition()) / slopeVal);   // Note that if the lift is lower than desired position,
-                                                                                                                // the subtraction will be positive and the motor will
-                                                                                                                // attempt to raise the lift. If it is too high it will
-                                                                                                                // be negative and thus try to lower the lift
-                                                                                                                // adjust slopeVal to acheived perfect hold power
-        }
+            // Display running time and Encoder value
+            telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("ArmPosition: ", +bot.motorArm.getCurrentPosition());
+            telemetry.update();
 
-        idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
+            // Arm Control - Uses left/right triggers to control motor direction.
+            // Uses Encoder values to set upper and lower limits to protect motors from over-driving lift
+            // and to hold arm position on decent to account for gravitational inertia
 
+            if (gamepad1.left_trigger > 0.0 && bot.motorArm.getCurrentPosition() > armMinPos) // encoder greater that lower limit
+            {
+                bot.motorArm.setPower(-gamepad1.left_trigger ); // let trigger run -motor DOWN / div in half to slow motor
+                armHoldPosition = bot.motorArm.getCurrentPosition(); // while the lift is moving, continuously reset the arm holding position
+            } else if (gamepad1.right_trigger > 0.0 && bot.motorArm.getCurrentPosition() < armMaxPos) //encoder less than Max limit
+            {
+                bot.motorArm.setPower(gamepad1.right_trigger); //let trigger run +motor UP
+                armHoldPosition = bot.motorArm.getCurrentPosition(); // while the lift is moving, continuously reset the arm holding position
+            } else //triggers are released - try to maintain the current position
+            {
+                bot.motorArm.setPower((double) (armHoldPosition - bot.motorArm.getCurrentPosition()) / slopeVal);   // Note that if the lift is lower than desired position,
+                // the subtraction will be positive and the motor will
+                // attempt to raise the lift. If it is too high it will
+                // be negative and thus try to lower the lift
+                // adjust slopeVal to acheived perfect hold power
+            }
+
+            idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
+
+        }//OpModeIsActive
     }//runOpMode
 }//ConceptHoldArm
