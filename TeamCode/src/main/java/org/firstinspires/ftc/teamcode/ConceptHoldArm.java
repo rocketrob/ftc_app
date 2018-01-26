@@ -37,16 +37,18 @@ public class ConceptHoldArm extends LinearOpMode{
 
         bot.init(hardwareMap);  //Initialize hardware from the HardwareHolonomic Setup
 
-        //init current position of arm motor
-        armHoldPosition = bot.motorArm.getCurrentPosition();
-        
-        //adds feedback telemetry to DS
-        telemetry.addData("Status", "Initialized");
-        telemetry.addData("armPostion: ", + bot.motorArm.getCurrentPosition());
-        telemetry.update();
-        
-        // Wait for the game to start (driver presses PLAY)
-        waitForStart();
+        while(!opModeIsActive()) { // Testing out loop to continuted update of armPos while waiting for start
+            //init current position of arm motor
+            armHoldPosition = bot.motorArm.getCurrentPosition();
+
+            //adds feedback telemetry to DS
+            telemetry.addData("Status", "Initialized");
+            telemetry.addData("armPostion: ", +bot.motorArm.getCurrentPosition());
+            telemetry.update();
+
+            // Wait for the game to start (driver presses PLAY)
+            waitForStart();
+        }
         runtime.reset();
 
         while (opModeIsActive()) {  // run until the end of the match (driver presses STOP)
@@ -59,17 +61,20 @@ public class ConceptHoldArm extends LinearOpMode{
             telemetry.addData("ArmPosition: ", +bot.motorArm.getCurrentPosition());
             telemetry.update();
 
-            // Arm Control - Uses left/right triggers to control motor direction.
+            // Arm Control - Uses left_stick_y to control motor direction.
+            //          Note:   joystick values are reversed to common thought
+            //                  Neg value when stick up, Pos when stick down (to reverse this you'd need to make all gamepad values negative)
+
             // Uses Encoder values to set upper and lower limits to protect motors from over-driving lift
             // and to hold arm position on decent to account for gravitational inertia
 
-            if (gamepad1.left_trigger > 0.0 && bot.motorArm.getCurrentPosition() > armMinPos) // encoder greater that lower limit
+            if (gamepad1.left_stick_y < 0.0 && bot.motorArm.getCurrentPosition() > armMinPos) // encoder greater that lower limit
             {
-                bot.motorArm.setPower(-gamepad1.left_trigger ); // let trigger run -motor DOWN / div in half to slow motor
+                bot.motorArm.setPower(gamepad1.left_stick_y ); // let stick drive UP (note this is positive value on joystick)
                 armHoldPosition = bot.motorArm.getCurrentPosition(); // while the lift is moving, continuously reset the arm holding position
-            } else if (gamepad1.right_trigger > 0.0 && bot.motorArm.getCurrentPosition() < armMaxPos) //encoder less than Max limit
+            } else if (gamepad1.left_stick_y > 0.0 && bot.motorArm.getCurrentPosition() < armMaxPos) //encoder less than Max limit
             {
-                bot.motorArm.setPower(gamepad1.right_trigger); //let trigger run +motor UP
+                bot.motorArm.setPower(gamepad1.left_stick_y); //let stick drive DOWN (note this is negative value on joystick)
                 armHoldPosition = bot.motorArm.getCurrentPosition(); // while the lift is moving, continuously reset the arm holding position
             } else //triggers are released - try to maintain the current position
             {
