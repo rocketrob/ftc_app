@@ -59,8 +59,8 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="TestAuto Drive To Line", group="Test")
-//@Disabled
+@Autonomous(name="TestAuto Drive To Line", group="Examples")
+@Disabled
 public class TestAutoDriveToLine_Linear extends LinearOpMode {
 
     //reset runtime counter
