@@ -30,29 +30,45 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.teamcode.ExampleCode;
+package org.firstinspires.ftc.teamcode;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
- * Testing Stetson's sweeper button toggle program from Dan
+ * This file contains an minimal example of a Linear Tele "OpMode".
+ *
+ * This particular OpMode just executes a basic Tank Drive, Arm and 2 Servos for a PushBot
+ * It includes all the skeletal structure that all linear OpModes contain.
+ *
+ * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
+ * Comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-
-@TeleOp(name="Toggle2", group="Examples")  // @Autonomous(...) is the other common choice
+@TeleOp(name="Example: TeleOp w/ Deadzone", group="Examples")
 @Disabled
-public class ToggleButton2 extends LinearOpMode {
+public class Example_TeleOp_w_JoystickDeadzone extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
     //motors
     DcMotor motorLeft = null;
     DcMotor motorRight = null;
-    DcMotor sweeper = null;
+    DcMotor motorArm = null;
 
+    //servos
+    Servo servoHandL = null;
+    Servo servoHandR = null;
+
+    //Create and set default hand positions variables. To be determined based on your build
+    double CLOSED = 0.2;
+    double OPEN = 0.8;
+
+    double THRESHOLD = 0.2;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -64,22 +80,21 @@ public class ToggleButton2 extends LinearOpMode {
          * to 'get' must correspond to the names assigned during the robot configuration
          * step (using the FTC Robot Controller app on the phone).
          */
-        motorLeft = hardwareMap.dcMotor.get("motorL");
-        motorRight = hardwareMap.dcMotor.get("motorR");
-        sweeper = hardwareMap.dcMotor.get("sweeper");
-
+         motorLeft  = hardwareMap.dcMotor.get("motorL");
+         motorRight = hardwareMap.dcMotor.get("motorR");
+         motorArm = hardwareMap.dcMotor.get("motorArm");
+         servoHandL = hardwareMap.servo.get("servoHandL"); //assuming a pushBot configuration of two servo grippers
+         servoHandR = hardwareMap.servo.get("servoHandR");
 
         // eg: Set the drive motor directions:
         // "Reverse" the motor that runs backwards when connected directly to the battery
-        motorLeft.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        motorRight.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
-        sweeper.setDirection(DcMotor.Direction.FORWARD); // Can change based on motor configuration
+         motorLeft.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+         motorRight.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+         motorArm.setDirection(DcMotor.Direction.FORWARD); // Can change based on motor configuration
 
-        // Declare some variables
-        double motorDirection = -1.0;   //Keeps track of the direction for the sweeper motor
-        boolean aPrevState = false;      //Keeps track of whether the button was previously pressed or not so we know when it is released
-        boolean aCurrState = false;
-
+        //Set servo hand grippers to open position.
+         servoHandL.setPosition(OPEN);
+         servoHandR.setPosition(OPEN);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -92,37 +107,46 @@ public class ToggleButton2 extends LinearOpMode {
         while (opModeIsActive()) {  // run until the end of the match (driver presses STOP)
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
-
+            // Set Threshold for a deadzone where joysticks return zero power
             // tank drive set to gamepad1 joysticks
             //(note: The joystick goes negative when pushed forwards)
-            motorLeft.setPower(gamepad1.left_stick_y);
-            motorRight.setPower(gamepad1.right_stick_y);
-
-
-//Toggle motor direction when button 'a' pressed
-
-            // set current state to that of the button
-            aCurrState = gamepad1.a;
-
-            if ((aCurrState == true) && (aCurrState != aPrevState)) {
-                // button is transitioning to a pressed state. So Toggle motorDirection
-                motorDirection = motorDirection * -1.0;
-
-                //Set the sweeper power to whatever the motorDirection value is
-                sweeper.setPower(motorDirection);
+            if(Math.abs(gamepad1.left_stick_y) > THRESHOLD){
+                motorLeft.setPower(gamepad1.left_stick_y);
+            }else {
+                motorLeft.setPower(0.0);
             }
-            // update previous state variable.
-            aPrevState = aCurrState;
 
-            if (gamepad1.x) //button 'x' will stop sweeper
+            if(Math.abs(gamepad1.right_stick_y) > THRESHOLD) {
+
+                motorRight.setPower(gamepad1.left_stick_y);
+            }else {
+                motorRight.setPower(0.0);
+            }
+
+            // Arm Control - Uses dual buttons to control motor direction
+            if(gamepad1.right_bumper)
             {
-                sweeper.setPower(0.0);
-                motorDirection = -1.0;
+                motorArm.setPower(-gamepad1.right_trigger); // if both Bumper + Trigger, then negative power, runs arm down
+            }
+            else
+            {
+                motorArm.setPower(gamepad1.right_trigger);  // else trigger positive value, runs arm up
+            }
+
+            //servo commands
+            if(gamepad1.a) //button 'a' will open
+            {
+                servoHandR.setPosition(OPEN);
+                servoHandL.setPosition(OPEN);
+            }
+            else if (gamepad1.b) //button 'b' will close
+            {
+                servoHandR.setPosition(CLOSED);
+                servoHandL.setPosition(CLOSED);
             }
 
 
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
-
     }
 }

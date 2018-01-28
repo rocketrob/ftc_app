@@ -1,19 +1,11 @@
 
-package org.firstinspires.ftc.teamcode.ExampleCode;
+package org.firstinspires.ftc.teamcode;
 
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsUsbServoController;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorController;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ServoController;
-import com.qualcomm.robotcore.hardware.ServoImplEx;
-import com.qualcomm.robotcore.hardware.configuration.ServoControllerConfiguration;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 
 /**
@@ -30,7 +22,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
  *
  */
 
-public class MyBotHardwareSetup  {
+public class ConceptBotHardwareSetup {
 
    /* Declare Public OpMode members.
     *these are the null statements to make sure nothing is stored in the variables.
@@ -41,13 +33,14 @@ public class MyBotHardwareSetup  {
     public DcMotor motorRight = null;
     public DcMotor motorArm = null;
 
-    //servos
-    public Servo servoHandL = null;
-    public Servo servoHandR = null;
-    public Servo crServo    = null;
+//    //servos
+//    public Servo servoHandL = null;
+//    public Servo servoHandR = null;
+//    public Servo crServo    = null;
+//
+//    //sensors
+//    public GyroSensor gyro  = null;
 
-    //sensors
-   public GyroSensor gyro  = null;
 
     /* local OpMode members. */
     HardwareMap hwMap        = null;
@@ -62,10 +55,11 @@ public class MyBotHardwareSetup  {
     double SpinRight = 0.6;
     double STOP = 0.5;
 
+
    /* Constructor   // this is not required as JAVA does it for you, but useful if you want to add
     * function to this method when called in OpModes.
     */
-    public  MyBotHardwareSetup() {
+    public ConceptBotHardwareSetup() {
     }
 
     //Initialize standard Hardware interfaces
@@ -80,7 +74,6 @@ public class MyBotHardwareSetup  {
         motorLeft = hwMap.dcMotor.get("motorL");
         motorRight = hwMap.dcMotor.get("motorR");
         motorArm = hwMap.dcMotor.get("motorArm");
-       // gyro = hwMap.gyroSensor.get("gyro");
 
         // Set the drive motor directions:
         motorLeft.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
@@ -98,29 +91,26 @@ public class MyBotHardwareSetup  {
         motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-
-        /************************************************************
-         * SERVO SECTION
-         ************************************************************/
-
-        // Define Motors to match Robot Configuration File
-        servoHandL = hwMap.servo.get("servoHandL");
-        servoHandR = hwMap.servo.get("servoHandR");
-        crServo    = hwMap.servo.get("crServo");
-
-        //Set servo hand grippers to open position.
-        servoHandL.setPosition(OPEN);
-        servoHandR.setPosition(OPEN);
-
-        //Continous Rotation Servo
-        crServo.setPosition(STOP);
-
-
-        /************************************************************
-         * SENSOR SECTION
-         ************************************************************/
-        //Define sensors
-        gyro = hwMap.gyroSensor.get("gyro");
+//        /************************************************************
+//         * SERVO SECTION
+//         ************************************************************/
+//        // Define Motors to match Robot Configuration File
+//        servoHandL = hwMap.servo.get("servoHandL");
+//        servoHandR = hwMap.servo.get("servoHandR");
+//        crServo    = hwMap.servo.get("crServo");
+//
+//        //Set servo hand grippers to open position.
+//        servoHandL.setPosition(OPEN);
+//        servoHandR.setPosition(OPEN);
+//
+//        //Continous Rotation Servo
+//        crServo.setPosition(STOP);
+//
+//        /************************************************************
+//         * SENSOR SECTION
+//         ************************************************************/
+//        //Define sensors
+//        gyro = hwMap.gyroSensor.get("gyro");
 
    }
 

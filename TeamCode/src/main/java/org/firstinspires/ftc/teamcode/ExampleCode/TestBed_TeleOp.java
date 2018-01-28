@@ -30,6 +30,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+
 package org.firstinspires.ftc.teamcode.ExampleCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -39,7 +40,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-/**
+
+/*
  * This file contains a configuration for Mr. Reynolds' TestBed motors/servos/sensor
  *
  * It is intended to test basic function of program parameters
@@ -47,6 +49,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * You could make a copy and adjust Configuration to match your bot for use as a basic testing
  * platform.
  */
+
 
 
 @TeleOp(name="TestBedOpMode", group="Examples")  // @Autonomous(...) is the other common choice
@@ -65,9 +68,11 @@ public class TestBed_TeleOp extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
+
         /************************
          * TeleOp Code Below://
          *************************/
+
 
         while (opModeIsActive()) {  // run until the end of the match (driver presses STOP)
             telemetry.addData("Status", "Run Time: " + runtime.toString());
@@ -119,3 +124,4 @@ public class TestBed_TeleOp extends LinearOpMode {
         }
     }
 }
+
